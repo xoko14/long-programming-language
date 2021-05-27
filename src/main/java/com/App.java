@@ -22,7 +22,7 @@ public class App {
         String st;
         while ((st = br.readLine()) != null) {
             st = st.replaceAll("\t", "");
-            while (st.substring(0, 1).equals(" "))
+            while (st.length()>0 && st.substring(0, 1).equals(" "))
                 st = st.substring(1);
             code.add(st);
         }
@@ -44,7 +44,8 @@ public class App {
         }
     }
 
-    private static void translateLine(String[] line) {
+    private static boolean translateLine(String[] line) {
+        if(line.length == 0) return true;
         switch (line[0].length()) {
             case 1:
                 if(line[1].contains("\"") || line[1].contains("'")) System.out.println(trimString(line[1]));
@@ -57,7 +58,9 @@ public class App {
                 break;
             case 2:
                 variables.add(new Variable(line[1].length(), trimString(line[2])));
+                break;
         }
+        return true;
     }
 
     private static String[] splitLine(String line) {
