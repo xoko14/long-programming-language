@@ -10,11 +10,11 @@ import java.util.regex.Pattern;
 
 public class App {
     private static ArrayList<String> code;
-    private static ArrayList<Variable> variables;
+    private static VariableList variables;
 
     public static void main(String[] args) throws IOException {
         code = new ArrayList<>();
-        variables = new ArrayList<>();
+        variables = new VariableList();
         File file = new File(args[0]);
 
         @SuppressWarnings("resource")
@@ -47,18 +47,19 @@ public class App {
     private static boolean translateLine(String[] line) {
         if(line.length == 0) return true;
         switch (line[0].length()) {
-            case 1:
+            case 1: //print
                 if(line[1].contains("\"") || line[1].contains("'")) System.out.println(trimString(line[1]));
-                else if(variables.contains(Variable.fromId(line[1].length())))
-                    System.out.println(variables.get(variables.indexOf(Variable.fromId(line[1].length()))).val);
+                else if(variables.get(line[1].length())!=null)
+                    System.out.println(variables.get(line[1].length()).val);
                 else {
                     System.out.println("variable not initialized :(");
                     System.exit(0);
                 }
                 break;
-            case 2:
-                variables.add(new Variable(line[1].length(), trimString(line[2])));
+            case 2: //define variable
+                variables.set(new Variable(line[1].length(), trimString(line[2])));
                 break;
+            
         }
         return true;
     }
