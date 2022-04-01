@@ -59,7 +59,9 @@ public class App {
             case 2: //define variable
                 variables.set(new Variable(line[1].length(), trimString(line[2])));
                 break;
-            
+
+            case 3: //add two variables into another (new or existing)
+                break;
         }
         return true;
     }
